@@ -37,10 +37,10 @@ func main() {
 	for {
 		// Decode bencoded data.
 		err := decoder.Decode(&token)
-		if err == io.EOF {
-			break
-		}
 		if err != nil {
+			if err == io.EOF || err.Error() == "unexpected EOF" {
+				break
+			}
 			fmt.Fprintf(os.Stderr, "Error decoding bencoded data: %v\n", err)
 			os.Exit(1)
 		}
